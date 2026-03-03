@@ -9,6 +9,7 @@ import { ROLEMAP } from "./constants/incident.constant";
 import { Incident, IncidentDocument } from "./schema/incident.schema";
 import { formatDuration } from "./helpers/format-duration.helper";
 import { DELTA_DISPATCH_DB_NAME } from "src/common/constants/database.constant";
+import { CompanionSnapshotI } from "./interface/incident.interface";
 
 @Injectable()
 export class IncidentService {
@@ -58,6 +59,14 @@ export class IncidentService {
             : fullyRole.slice(idx + separator.length);
     };
 
+    private transformArrayToStringByProperty(array: any[], property: string): string {
+        return array?.map(item => item[property])?.filter(Boolean)?.join(', ') || '';
+    }
+
+    private transformArrayToString(array: any[]): string {
+        return array?.filter(Boolean)?.join(', ') || '';
+    }
+
     private getUserFullNames(incident: any): string {
         return (
             incident.incident_users
@@ -76,6 +85,38 @@ export class IncidentService {
             )
             .join(', ');
     };
+
+    private getCompanionsSnapshot(companions: CompanionSnapshotI) {
+        if (!companions || companions === null) {
+            return {
+                vehicleCompanions: [],
+                patrolZoneCompanions: []
+            };
+        }
+
+        const fullNames = companions.companions.map(c =>
+            `${c.user_name} ${c.user_lastname}`
+        );
+
+        if (companions.assignmentType === "vehicle") {
+            return {
+                vehicleCompanions: fullNames,
+                patrolZoneCompanions: []
+            };
+        }
+
+        if (companions.assignmentType === "patrol_zone") {
+            return {
+                vehicleCompanions: [],
+                patrolZoneCompanions: fullNames
+            };
+        }
+
+        return {
+            vehicleCompanions: [],
+            patrolZoneCompanions: []
+        };
+    }
 
     //# GENERAL
     private getRegisteredForLabel(registeredFor: string): string {
@@ -334,7 +375,8 @@ export class IncidentService {
                     incident_description_resolved: 1,
                     taxpayer_solved_description: 1,
                     incident_resolved_date: 1,
-                    incident_califications: 1
+                    incident_califications: 1,
+                    incident_companions: 1,
                 }
             }
         ])
@@ -376,6 +418,8 @@ export class IncidentService {
 
         const closureAreas = this.indexAreaByKey('cierre', incident.incident_califications?.cierre?.areas);
         const cierre = this.indexCriteriasByKey(incident.incident_califications?.cierre?.criterias);
+
+        const { vehicleCompanions, patrolZoneCompanions } = this.getCompanionsSnapshot(incident.incident_companions);
 
         return {
             numero: incident.incident_ticket_number,
@@ -453,6 +497,9 @@ export class IncidentService {
             cierre_tiempo_resolucion: this.getResolutionTime(incident),
             puntaje_final: this.finalCalificationScore(reportAreas, attentionAreas, closureAreas),
 
+            //** COMPANIONS */ 
+            acomp_vehiculares: this.transformArrayToString(vehicleCompanions),
+            acomp_pie: this.transformArrayToString(patrolZoneCompanions),
         };
     };
 }

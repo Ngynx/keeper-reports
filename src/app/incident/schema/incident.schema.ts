@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import { CompanionSnapshotI } from '../interface/incident.interface';
 
 export type IncidentDocument = Incident & Document;
 @Schema()
@@ -527,6 +528,13 @@ export class Incident extends Document {
         default: 0
     })
     incident_total_accountants: number;
+
+    @Prop({
+        type: Object,
+        required: false,
+        // default: []
+    })
+    incident_companions: CompanionSnapshotI;
 }
 
 export const IncidentSchema = SchemaFactory.createForClass(Incident);

@@ -55,6 +55,11 @@ export class ExcelGeneratorService {
             { header: "Rol del que registra ", key: "registrado_por_rol", width: 20 },
             { header: "Tipo  Informante", key: "informante_tipo", width: 15 },
             { header: "Nombre informante", key: "informante_nombre", width: 18 },
+
+            // COMPANIONS
+            { header: "Acompañantes vehiculares", key: "acomp_vehiculares", width: 45 },
+            { header: "Acompañantes a pie", key: "acomp_pie", width: 45 },
+
             { header: "Origen", key: "origen", width: 15 },
             { header: "Modalidad patrullaje", key: "modalidad", width: 15 },
             { header: "Tipo patrullaje", key: "tipo_modalidad", width: 15 },
@@ -62,7 +67,6 @@ export class ExcelGeneratorService {
             { header: "Turno", key: "turno", width: 15 },
             { header: "Jefe de turno (supervisor)", key: "jefe_turno", width: 25 }, // SUPERVISOR
             { header: "Operador (Atendido por/despachador)", key: "operador", width: 32 }, // OPERATOR
-            // { header: "Rol del despachador", key: "operator_responsable", width: 18 }, // OPERATOR ROLE
             { header: "Usuarios asignados", key: "usuarios", width: 25 },
             { header: "Vehículos asignados", key: "vehiculos", width: 25 },
             { header: "Grupo de trabajo", key: "grupo_trabajo", width: 30 },
@@ -91,8 +95,6 @@ export class ExcelGeneratorService {
             { header: "Relación del incidente", key: "incident_is_duplicated", width: 20 },
             { header: "Latitud", key: "taxpayer_location_latitude", width: 20 },
             { header: "Longitud", key: "taxpayer_location_longitude", width: 20 },
-            // // { header: "Incidente derivado", key: "incident_parent_id", width: 20 },
-            // // { header: "Número incidente derivado", key: "incident_parent_ticket_number", width: 25 },
 
             // // CALIFICACIONEs
             { header: "Reporte - Fotos", key: "reporte_fotos", width: 15 },
@@ -120,8 +122,9 @@ export class ExcelGeneratorService {
             { header: "Tiempo de resolucion", key: "cierre_tiempo_resolucion", width: 30 },
             { header: "Puntaje Final", key: "puntaje_final", width: 25 },
 
-            // // { header: "", key: "", width: 25 },
-
+            // // COMPANIONS
+            // { header: "Acompañantes vehiculares", key: "acomp_vehiculares", width: 45 },
+            // { header: "Acompañantes a pie", key: "acomp_pie", width: 45 },
 
         ];
 
