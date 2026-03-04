@@ -49,6 +49,14 @@ export class IncidentService {
         return ROLEMAP[role] ?? role;
     };
 
+    private normalizeHeader(name: string): string {
+        return name
+            .toLowerCase()
+            .normalize("NFD")                 // quita tildes
+            .replace(/[\u0300-\u036f]/g, "")  // elimina acentos
+            .replace(/\s+/g, "_");            // reemplaza espacios por _
+    };
+
     private getRoleName(fullyRole: string): string {
         if (!fullyRole) return '';
         const separator = ' - ';

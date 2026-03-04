@@ -5,6 +5,7 @@ import { AuthModule } from './app/auth/auth.module';
 import { UserModule } from './app/user/user.module';
 import { IncidentModule } from './app/incident/incident.module';
 import { DatabaseModule } from './app/database/database.module';
+import { ShiftModule } from './app/shift/shift.module';
 
 @Module({
   imports: [
@@ -21,7 +22,8 @@ import { DatabaseModule } from './app/database/database.module';
 
     UserModule,
     AuthModule,
-    IncidentModule
+    IncidentModule,
+    ShiftModule
   ],
   controllers: [],
   providers: [],
